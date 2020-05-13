@@ -7,27 +7,36 @@ const io = require("socket.io")(server);
 const SessionSocket = require('session.socket.io');
 // sessionSocket = new SessionSocket(io, sessionStore, cookieParser);
 
+app.use(express.static(__dirname + '/src/css'));
+app.use(express.static(__dirname + '/src/client'));
+
 app.get('/', (req, res) => {
-    res.sendFile(__dirname + "/view/index.html");
+    res.sendFile(__dirname + "/src/view/index.html");
 });
 
 let clients = [];
 
 io.on('connection', client => {
-    clients.push(client);
-    client.on('message', data => {
-        console.log('Event received :', data);
-        clients.map((client) => {
-            client.emit('message', data);
+    client.on('login', (login) => {
+        client.name = login;
+        clients.push(client);
+        console.log("Client connected : " + login);
+        client.broadcast.emit('message',"<span class='status'>" + login +' is connected !</span>');
+
+        client.on('message', data => {
+            console.log('Event received :', data.content);
+            clients.map((client) => {
+                client.emit('message', "<p class='login'>" + data.name + ":</p> " + data.content);
+            });
         });
     });
 
-    client.on('login', (login) => {
-        console.log("Client connected : " + login);
-        client.broadcast.emit('message', login +' vient de se connecter !');
+    client.on('disconnect', () => {
+        if (client.name) {
+            console.log("Client disconnected : " + client.name);
+            client.broadcast.emit('message',"<span class='status'>" + client.name + ' leaving !</spanZ>');
+        }
     });
-
-    client.on('disconnect', () => { });
 });
 
 server.listen(config.app.port);
