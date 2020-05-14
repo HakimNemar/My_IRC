@@ -31,12 +31,34 @@ io.on('connection', client => {
         });
     });
 
+    client.on('update login', data => {
+        client.name = data.name;
+        client.broadcast.emit('message', "<span class='status'>" + data.content + "</span>");
+    });
+
     client.on('disconnect', () => {
         if (client.name) {
             console.log("Client disconnected : " + client.name);
             client.broadcast.emit('message',"<span class='status'>" + client.name + ' leaving !</spanZ>');
         }
     });
+
+    client.on('create', (room) => {
+        client.join(room);
+        console.log(io.sockets.adapter.rooms);
+    });
+    // afficher list de room envoyer au client en tant que lien pour anvoyer le nom de la room dans l'url
+    //pour la rejoindre, envoyer msg client.on(message){ client.to(room).emit(message)}
+
+
+    // client.on('update login', data => {
+    //     // clients.map((client) => {
+    //     //     console.log(client.name);
+    //     // });
+    //     console.log(client.name);
+    //     console.log(data.name);
+    //     client.broadcast.emit('message', "<span class='status'>" + data.content + "</span>");
+    // });
 });
 
 server.listen(config.app.port);

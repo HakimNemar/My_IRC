@@ -44,5 +44,9 @@ li {
 }
 
 .textstatus {
-    background-color: rgb(255, 242, 225);
+    background-color: rgb(245, 245, 245);
+}
+
+.status {
+    color: rgb(107, 212, 107);
 }
