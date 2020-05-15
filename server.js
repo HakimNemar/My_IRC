@@ -45,8 +45,13 @@ io.on('connection', client => {
 
     client.on('create', (room) => {
         client.join(room);
+        // console.log(io.sockets.adapter.rooms);
+    });
+    
+    client.on('show room', () => {
         console.log(io.sockets.adapter.rooms);
     });
+
     // afficher list de room envoyer au client en tant que lien pour anvoyer le nom de la room dans l'url
     //pour la rejoindre, envoyer msg client.on(message){ client.to(room).emit(message)}
 

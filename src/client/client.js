@@ -62,6 +62,9 @@ function createroom() {
 
     if (room != null) {
         socket.emit('create', room);
+        // socket.emit('show room');
+
+        console.log(socket);
     }
 }
 
