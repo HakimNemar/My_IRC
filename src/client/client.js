@@ -1,4 +1,5 @@
 let ul = document.getElementById('message');
+let ulRoom = document.getElementById('listeRoom');
 let socket = io('http://localhost:4242');
 
 let login;
@@ -62,11 +63,17 @@ function createroom() {
 
     if (room != null) {
         socket.emit('create', room);
-        // socket.emit('show room');
-
-        console.log(socket);
     }
 }
+
+socket.on('create', data => {
+    ulRoom.innerHTML = "";
+    data.map( room => {
+        let li = document.createElement('li');
+        li.innerHTML = room;
+        ulRoom.appendChild(li);
+    });
+});
 
 socket.on('message', (data) => {
     let li = document.createElement('li');

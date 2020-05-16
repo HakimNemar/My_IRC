@@ -11,7 +11,7 @@ app.use(express.static(__dirname + '/src/css'));
 app.use(express.static(__dirname + '/src/client'));
 
 app.get('/', (req, res) => {
-    res.sendFile(__dirname + "/src/view/index.html");
+    res.sendFile(__dirname + "/src/view/showroom.html");
 });
 
 let clients = [];
@@ -46,14 +46,21 @@ io.on('connection', client => {
     client.on('create', (room) => {
         client.join(room);
         // console.log(io.sockets.adapter.rooms);
+        var allRooms = [];
+        var rooms = io.sockets.adapter.rooms;
+        if (rooms) {
+            for (var room in rooms) {
+                if (!rooms[room].hasOwnProperty(room)) {
+                    allRooms.push(room);
+                }
+            }
+        }
+        client.emit('create', allRooms.splice(2));
     });
     
-    client.on('show room', () => {
+    client.emit('show room', () => {
         console.log(io.sockets.adapter.rooms);
     });
-
-    // afficher list de room envoyer au client en tant que lien pour anvoyer le nom de la room dans l'url
-    //pour la rejoindre, envoyer msg client.on(message){ client.to(room).emit(message)}
 
 
     // client.on('update login', data => {
@@ -65,5 +72,18 @@ io.on('connection', client => {
     //     client.broadcast.emit('message', "<span class='status'>" + data.content + "</span>");
     // });
 });
+
+// function findRooms() {
+//     var allRooms = [];
+//     var rooms = io.sockets.adapter.rooms;
+//     if (rooms) {
+//         for (var room in rooms) {
+//             if (!rooms[room].hasOwnProperty(room)) {
+//                 allRooms.push(room);
+//             }
+//         }
+//     }
+//     return allRooms;
+// }
 
 server.listen(config.app.port);
