@@ -6,18 +6,30 @@
     <title>Rooms</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-    <link rel="stylesheet" type="text/css" href="style.css">
+    <link rel="stylesheet" type="text/css" href="/style.css">
 </head>
 <body>
     
     <div class="container my-5" id="rooms">
-        <button id="createroom" class="btn btn-primary" onClick="createroom()">Create Room</button>
+        <div class="onediv">
+            <div class="divbtn row">
+                <div class="col-md-5">
+                    <h2 class="h2liste">Liste of rooms</h2>
+                </div>
+                <div class="col-md-7 btncreate">
+                    <button id="seecurrentroom" class="btn btn-primary" onClick="seeCurrentRoom()">Update room</button>
+                    <button id="createroom" class="btn btn-primary" onClick="createroom()">Create Room</button>
+                </div>
+            </div>
+            
+            <ul id="listeRoom">
 
-        <ul id="listeRoom"></ul>
-        
+            </ul>
+        </div>
+
     </div>
 
     <script src="/socket.io/socket.io.js"></script>
-    <script src="client.js"></script>
+    <script src="/client.js"></script>
 </body>
 </html>

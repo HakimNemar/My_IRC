@@ -10,8 +10,24 @@ body {
     margin: 0;
 }
 
+#loginform {
+    margin: 30%;
+    text-align: center;
+}
+
+#rooms {
+    background-color: #007bff;
+    padding: 20px;
+    border-radius: 5px;
+}
+
 li {
     padding: 5px;
+}
+
+h3 {
+    text-align: center;
+    color: #007bff;
 }
 
 .login {
@@ -30,11 +46,6 @@ li {
     min-width: 200px;
 }
 
-#loginform {
-    margin: 30%;
-    text-align: center;
-}
-
 .textsend {
     background-color: rgb(233, 233, 233);
 }
@@ -49,4 +60,29 @@ li {
 
 .status {
     color: rgb(107, 212, 107);
+}
+
+.onediv {
+    background-color: #fff;
+    border-radius: 5px;
+    padding: 10px;
+}
+
+.divbtn {
+    padding: 10px;
+    border-bottom: 1px solid #007bff;
+}
+
+.btncreate {
+    text-align: right;
+}
+
+.displayflex {
+    display: flex;
+    margin: -1px;
+    border-top: 1px solid #007bff;
+}
+
+.join {
+    text-align: end;
 }

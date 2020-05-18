@@ -4,14 +4,15 @@ const app = express();
 const server = require("http").Server(app);
 const io = require("socket.io")(server);
 
-const SessionSocket = require('session.socket.io');
-// sessionSocket = new SessionSocket(io, sessionStore, cookieParser);
-
 app.use(express.static(__dirname + '/src/css'));
 app.use(express.static(__dirname + '/src/client'));
 
 app.get('/', (req, res) => {
     res.sendFile(__dirname + "/src/view/showroom.html");
+});
+
+app.get('/room/:room', (req, res) => {
+    res.sendFile(__dirname + "/src/view/index.html");
 });
 
 let clients = [];
@@ -43,11 +44,14 @@ io.on('connection', client => {
         }
     });
 
-    client.on('create', (room) => {
-        client.join(room);
-        // console.log(io.sockets.adapter.rooms);
-        var allRooms = [];
-        var rooms = io.sockets.adapter.rooms;
+    client.on('create', (data) => {
+        if (data) {
+            client.join(data);
+        }
+
+        let allRooms = [];
+        let rooms = io.sockets.adapter.rooms;
+
         if (rooms) {
             for (var room in rooms) {
                 if (!rooms[room].hasOwnProperty(room)) {
@@ -55,35 +59,13 @@ io.on('connection', client => {
                 }
             }
         }
-        client.emit('create', allRooms.splice(2));
+        console.log(allRooms);
+        client.emit('create', allRooms);
     });
     
     client.emit('show room', () => {
         console.log(io.sockets.adapter.rooms);
     });
-
-
-    // client.on('update login', data => {
-    //     // clients.map((client) => {
-    //     //     console.log(client.name);
-    //     // });
-    //     console.log(client.name);
-    //     console.log(data.name);
-    //     client.broadcast.emit('message', "<span class='status'>" + data.content + "</span>");
-    // });
 });
-
-// function findRooms() {
-//     var allRooms = [];
-//     var rooms = io.sockets.adapter.rooms;
-//     if (rooms) {
-//         for (var room in rooms) {
-//             if (!rooms[room].hasOwnProperty(room)) {
-//                 allRooms.push(room);
-//             }
-//         }
-//     }
-//     return allRooms;
-// }
 
 server.listen(config.app.port);

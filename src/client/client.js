@@ -1,5 +1,4 @@
 let ul = document.getElementById('message');
-let ulRoom = document.getElementById('listeRoom');
 let socket = io('http://localhost:4242');
 
 let login;
@@ -21,6 +20,12 @@ $('#send').keypress((e) => {
         message();
     }
 });
+
+// if ($('#listeRoom').val() == "") {
+//     let li = document.createElement('h3');
+//     li.innerHTML = "No rooms, create one &#x2197;";
+//     ulRoom.appendChild(li);
+// }
 
 function updateLogin() {
     let bul = prompt('Change login:', login);
@@ -64,16 +69,31 @@ function createroom() {
     if (room != null) {
         socket.emit('create', room);
     }
+    afficheRoom();
 }
 
-socket.on('create', data => {
-    ulRoom.innerHTML = "";
-    data.map( room => {
-        let li = document.createElement('li');
-        li.innerHTML = room;
-        ulRoom.appendChild(li);
+function seeCurrentRoom() {
+    socket.emit('create');
+    afficheRoom();
+}
+
+function afficheRoom() {
+    socket.on('create', data => {
+        let ulRoom = document.getElementById('listeRoom');
+        ulRoom.innerHTML = "";
+        data.map( room => {
+            let li = document.createElement('li');
+            li.classList.add("displayflex");
+            li.innerHTML = "<span class='col-md-5'>" + room + "</span>\
+                            <span class='col-md-7 join'>\
+                                <a href='/room/" + room + "'>\
+                                    <button class='btn btn-success'>Join</button>\
+                                </a>\
+                            </span>";
+            ulRoom.appendChild(li);
+        });
     });
-});
+}
 
 socket.on('message', (data) => {
     let li = document.createElement('li');
@@ -97,10 +117,3 @@ socket.on('message', (data) => {
 
     ul.appendChild(li);
 });
-
-// socket.on('update login', (data) => {
-//     console.log(data);
-//     let li = document.createElement('li');
-//     li.innerHTML = data;
-//     ul.appendChild(li);
-// });
