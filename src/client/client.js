@@ -9,7 +9,8 @@ $('#loginform').submit((e) => {
     if ($('#login').val() != "" && $('#login').val().length >= 3) {
         login = $('#login').val();
         $('.divform').fadeOut();
-        socket.emit('login', login);
+        let room = $('.contentmsg').attr('id');
+        socket.emit('login', {login: login, room: room});
         $('#updatelogin')[0].textContent = login;
     }
 });
@@ -53,9 +54,10 @@ function updateLogin() {
 
 function message() {
     let val = $('#send').val();
+    let room = $('.contentmsg').attr('id');
 
     if ($('#send').val() != "") {
-        socket.emit('message', { content: val, name: login });
+        socket.emit('message', { content: val, name: login, room: room });
         $('#send').val('');
         console.log('message emited');
     }
@@ -76,6 +78,8 @@ function seeCurrentRoom() {
     socket.emit('create');
     afficheRoom();
 }
+afficheRoom();
+socket.emit('create');
 
 function afficheRoom() {
     socket.on('create', data => {
@@ -89,8 +93,13 @@ function afficheRoom() {
                                 <a href='/room/" + room + "'>\
                                     <button class='btn btn-success'>Join</button>\
                                 </a>\
+                                <button class='btn btn-success rejoin' name='" + room + "'>rejoin</button>\
                             </span>";
             ulRoom.appendChild(li);
+        });
+        $('.rejoin').click( function() {
+            $('.contentmsg').css("display", "block");
+            $('.contentmsg').attr('id', this.name);
         });
     });
 }

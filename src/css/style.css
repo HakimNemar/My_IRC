@@ -86,3 +86,7 @@ h3 {
 .join {
     text-align: end;
 }
+
+.contentmsg {
+    display: none;
+}

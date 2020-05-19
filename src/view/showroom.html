@@ -29,6 +29,33 @@
 
     </div>
 
+    <div class="contentmsg">
+        <div class="divform">
+            <div class="container">
+                <form action="" id="loginform">
+                    <div class="form-group">
+                        <label for="login" class="labellogin"><h1>Enter your login:</h1></label>
+                        <input type="text" class="form-control" name="login" id="login" placeholder="Login">
+                    </div>
+                    <input type="submit" value="Enter">
+                </form>
+            </div>
+        </div>
+    
+        <div class="container">
+            <div class="">
+                <button id="updatelogin" onClick="updateLogin()">Login</button>
+            </div>
+            <div class="">
+                <ul id="message"></ul>
+                <div class="divsend">
+                    <input type="text" name="send" id="send">
+                    <button onClick="message()" type="submit" id="btnsend">Send</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script src="/socket.io/socket.io.js"></script>
     <script src="/client.js"></script>
 </body>

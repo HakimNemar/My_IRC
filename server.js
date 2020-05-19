@@ -19,15 +19,23 @@ let clients = [];
 
 io.on('connection', client => {
     client.on('login', (login) => {
-        client.name = login;
+        client.name = login.login;
         clients.push(client);
-        console.log("Client connected : " + login);
-        client.broadcast.emit('message',"<span class='status'>" + login +' is connected !</span>');
+        console.log("Client connected : " + login.login);
+        client.broadcast.emit('message',"<span class='status'>" + login.login +' is connected !</span>');
+
+        // client.on('message', data => {
+        //     console.log('Event received :', data.content);
+        //     clients.map((client) => {
+        //         client.emit('message', "<p class='login'>" + data.name + ":</p> " + data.content);
+        //     });
+        // });
 
         client.on('message', data => {
             console.log('Event received :', data.content);
             clients.map((client) => {
-                client.emit('message', "<p class='login'>" + data.name + ":</p> " + data.content);
+                // client.to(login.room).emit('message', "<p class='login'>" + data.name + ":</p> " + data.content);
+                // client.emit('message', "<p class='login'>" + data.name + ":</p> " + data.content);
             });
         });
     });
