@@ -22,22 +22,36 @@ io.on('connection', client => {
         client.name = login.login;
         clients.push(client);
         console.log("Client connected : " + login.login);
-        client.broadcast.emit('message',"<span class='status'>" + login.login +' is connected !</span>');
+        client.broadcast.emit('message',"<span class='status'>" + login.login +' is connected in room: ' + login.room + '</span>');
+        client.join(login.room);
+    });
 
-        // client.on('message', data => {
-        //     console.log('Event received :', data.content);
-        //     clients.map((client) => {
-        //         client.emit('message', "<p class='login'>" + data.name + ":</p> " + data.content);
-        //     });
-        // });
+    // client.on('message', data => {
+    //     console.log('Event received :', data.content);
+    //     clients.map((client) => {
+    //         client.emit('message', "<p class='login'>" + data.name + ":</p> " + data.content);
+    //     });
+    // });
 
-        client.on('message', data => {
-            console.log('Event received :', data.content);
-            clients.map((client) => {
-                // client.to(login.room).emit('message', "<p class='login'>" + data.name + ":</p> " + data.content);
-                // client.emit('message', "<p class='login'>" + data.name + ":</p> " + data.content);
-            });
-        });
+    // client.on('message', data => {
+    //     console.log('Event received :', data.content);
+    //     clients.map((client) => {
+    //         // client.to(login.room).emit('message', "<p class='login'>" + data.name + ":</p> " + data.content);
+    //         client.emit('message', "<p class='login'>" + data.name + ":</p> " + data.content);
+    //     });
+    // });
+
+    // client.to(login.room).on('message', data => {
+    //     console.log(data);
+    //     clients.map((client) => {
+    //         // client.to(login.room).emit('message', "<p class='login'>" + data.name + ":</p> " + data.content);
+    //         client.emit('message', "<p class='login'>" + data.name + ":</p> " + data.content);
+    //     });
+    // });
+    
+    client.on('message', data => {
+        // client.to(data.room).emit('message', "<p class='login'>" + data.name + ":</p> " + data.content);
+        io.in(data.room).emit('message', "<p class='login'>" + data.name + ":</p> " + data.content);
     });
 
     client.on('update login', data => {
@@ -55,6 +69,7 @@ io.on('connection', client => {
     client.on('create', (data) => {
         if (data) {
             client.join(data);
+            io.emit('message',"<span class='status'>Room '" + data + "' has created</span>");
         }
 
         let allRooms = [];
@@ -68,7 +83,7 @@ io.on('connection', client => {
             }
         }
         console.log(allRooms);
-        client.emit('create', allRooms);
+        io.emit('create', allRooms);
     });
     
     client.emit('show room', () => {

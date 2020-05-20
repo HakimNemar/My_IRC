@@ -85,6 +85,7 @@ function afficheRoom() {
     socket.on('create', data => {
         let ulRoom = document.getElementById('listeRoom');
         ulRoom.innerHTML = "";
+        
         data.map( room => {
             let li = document.createElement('li');
             li.classList.add("displayflex");
@@ -97,7 +98,9 @@ function afficheRoom() {
                             </span>";
             ulRoom.appendChild(li);
         });
+
         $('.rejoin').click( function() {
+            $('.areroom')[0].innerHTML = 'You are in room: "' + this.name + '"';
             $('.contentmsg').css("display", "block");
             $('.contentmsg').attr('id', this.name);
         });
