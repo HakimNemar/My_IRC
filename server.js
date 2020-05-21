@@ -43,7 +43,7 @@ io.on('connection', client => {
     client.on('disconnect', () => {
         if (client.name) {
             console.log("Client disconnected : " + client.name);
-            client.broadcast.emit('message',"<span class='status'>" + client.name + ' leaving !</spanZ>');
+            client.broadcast.emit('message',"<span class='status'>" + client.name + ' is disconnected !</spanZ>');
         }
     });
 

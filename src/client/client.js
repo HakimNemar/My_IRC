@@ -99,34 +99,33 @@ function afficheRoom() {
             // let variable = "<div class='container'><h1 class='areroom'></h1><div class=''><button id='updatelogin' onClick='updateLogin()'>Login</button></div><div class=''><ul id='message'></ul><div class='divsend'><input type='text' name='send' id='send'><button onClick='message()' type='submit' id='btnsend'>Send</button></div></div></div>";
             
             $('.contentmsg').css("display", "block");
-            let content = $('.contentmsg')[0];
+            let content = $('.mydiv')[0];
+            content.innerHTML = "";
             let div = document.createElement('div');
             div.innerHTML = "<h1 class='areroom'></h1><div class=''><button id='updatelogin' onClick='updateLogin()'>Login</button></div><div class=''><ul id='message'></ul><div class='divsend'><input type='text' name='send' id='send'><button onClick='message()' type='submit' id='btnsend'>Send</button></div></div>";
-            div.classList.add("container");
             content.appendChild(div);
+            socket.on('message', (data) => {
+                let li = document.createElement('li');
+                li.innerHTML = data;
+            
+                if (li.children[0].nodeName == "SPAN") {
+                    console.log(li.children[0].nodeName);
+                }
+            
+                if((li.children[0]) != undefined) {
+                    if (li.children[0].textContent == login + ":") {
+                        li.classList.add("textsend");
+                    } 
+                    else if (li.children[0].nodeName == "SPAN") {
+                        li.classList.add("textstatus");
+                    } 
+                    else {
+                        li.classList.add("textreceived");
+                    }
+                }
+            
+                document.getElementById('message').appendChild(li);
+            });
         });
     });
 }
-
-socket.on('message', (data) => {
-    let li = document.createElement('li');
-    li.innerHTML = data;
-
-    if (li.children[0].nodeName == "SPAN") {
-        console.log(li.children[0].nodeName);
-    }
-
-    if((li.children[0]) != undefined) {
-        if (li.children[0].textContent == login + ":") {
-            li.classList.add("textsend");
-        } 
-        else if (li.children[0].nodeName == "SPAN") {
-            li.classList.add("textstatus");
-        } 
-        else {
-            li.classList.add("textreceived");
-        }
-    }
-
-    ul.appendChild(li);
-});
