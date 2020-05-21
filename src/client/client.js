@@ -22,12 +22,6 @@ $('#send').keypress((e) => {
     }
 });
 
-// if ($('#listeRoom').val() == "") {
-//     let li = document.createElement('h3');
-//     li.innerHTML = "No rooms, create one &#x2197;";
-//     ulRoom.appendChild(li);
-// }
-
 function updateLogin() {
     let bul = prompt('Change login:', login);
 
@@ -91,18 +85,25 @@ function afficheRoom() {
             li.classList.add("displayflex");
             li.innerHTML = "<span class='col-md-5'>" + room + "</span>\
                             <span class='col-md-7 join'>\
-                                <a href='/room/" + room + "'>\
-                                    <button class='btn btn-success'>Join</button>\
-                                </a>\
                                 <button class='btn btn-success rejoin' name='" + room + "'>rejoin</button>\
                             </span>";
             ulRoom.appendChild(li);
         });
 
         $('.rejoin').click( function() {
-            $('.areroom')[0].innerHTML = 'You are in room: "' + this.name + '"';
+            socket.emit('rejoinRoom', this.name );
+            // $('.areroom')[0].innerHTML = 'You are in room: "' + this.name + '"';
+            // $('.contentmsg').css("display", "block");
+            // $('.contentmsg').attr('id', this.name);
+
+            // let variable = "<div class='container'><h1 class='areroom'></h1><div class=''><button id='updatelogin' onClick='updateLogin()'>Login</button></div><div class=''><ul id='message'></ul><div class='divsend'><input type='text' name='send' id='send'><button onClick='message()' type='submit' id='btnsend'>Send</button></div></div></div>";
+            
             $('.contentmsg').css("display", "block");
-            $('.contentmsg').attr('id', this.name);
+            let content = $('.contentmsg')[0];
+            let div = document.createElement('div');
+            div.innerHTML = "<h1 class='areroom'></h1><div class=''><button id='updatelogin' onClick='updateLogin()'>Login</button></div><div class=''><ul id='message'></ul><div class='divsend'><input type='text' name='send' id='send'><button onClick='message()' type='submit' id='btnsend'>Send</button></div></div>";
+            div.classList.add("container");
+            content.appendChild(div);
         });
     });
 }

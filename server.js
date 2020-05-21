@@ -26,28 +26,9 @@ io.on('connection', client => {
         client.join(login.room);
     });
 
-    // client.on('message', data => {
-    //     console.log('Event received :', data.content);
-    //     clients.map((client) => {
-    //         client.emit('message', "<p class='login'>" + data.name + ":</p> " + data.content);
-    //     });
-    // });
-
-    // client.on('message', data => {
-    //     console.log('Event received :', data.content);
-    //     clients.map((client) => {
-    //         // client.to(login.room).emit('message', "<p class='login'>" + data.name + ":</p> " + data.content);
-    //         client.emit('message', "<p class='login'>" + data.name + ":</p> " + data.content);
-    //     });
-    // });
-
-    // client.to(login.room).on('message', data => {
-    //     console.log(data);
-    //     clients.map((client) => {
-    //         // client.to(login.room).emit('message', "<p class='login'>" + data.name + ":</p> " + data.content);
-    //         client.emit('message', "<p class='login'>" + data.name + ":</p> " + data.content);
-    //     });
-    // });
+    client.on('rejoinRoom', room => {
+        client.join(room);
+    });
     
     client.on('message', data => {
         // client.to(data.room).emit('message', "<p class='login'>" + data.name + ":</p> " + data.content);
