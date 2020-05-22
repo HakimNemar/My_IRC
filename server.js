@@ -32,7 +32,15 @@ io.on('connection', client => {
     
     client.on('message', data => {
         // client.to(data.room).emit('message', "<p class='login'>" + data.name + ":</p> " + data.content);
-        io.in(data.room).emit('message', "<p class='login'>" + data.name + ":</p> " + data.content);
+        if (Array.isArray(data.content)) {
+            io.in(data.room).emit('message', "<p class='login'>" + data.name + ":</p> " + data.content.join('<br>'));
+            // io.in(data.room).emit('message', "<p class='login'>" + data.name + ":</p> " + data.content.map( res => {
+            //     return res + "<br>";
+            // }));
+        }
+        else {
+            io.in(data.room).emit('message', "<p class='login'>" + data.name + ":</p> " + data.content);
+        }
     });
 
     client.on('update login', data => {
@@ -67,8 +75,19 @@ io.on('connection', client => {
         io.emit('create', allRooms);
     });
     
-    client.emit('show room', () => {
-        console.log(io.sockets.adapter.rooms);
+    client.on('show room', () => {
+        let allRooms = [];
+        let rooms = io.sockets.adapter.rooms;
+
+        if (rooms) {
+            for (var room in rooms) {
+                if (!rooms[room].hasOwnProperty(room)) {
+                    allRooms.push(room);
+                }
+            }
+        }
+        console.log(allRooms);
+        client.emit('show room', allRooms);
     });
 });
 
