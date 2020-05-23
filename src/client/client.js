@@ -97,6 +97,12 @@ function message() {
                     });
                 }
             }
+            else if ($('#send').val().substr(0, 7) == '/create') {
+                socket.emit('create', $('#send').val().split(' ')[1]);
+            }
+            else if ($('#send').val().substr(0, 7) == '/delete') {
+                socket.emit('delete', $('#send').val().split(' ')[1]);
+            }
             $('#send').val('');
         }
         else {   

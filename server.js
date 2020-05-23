@@ -89,6 +89,11 @@ io.on('connection', client => {
         console.log(allRooms);
         client.emit('show room', allRooms);
     });
+
+    client.on('delete', data => {
+        client.leave(data);
+        io.emit('message',"<span class='status2'>Room '" + data + "' has deleted</span>");
+    });
 });
 
 server.listen(config.app.port);
