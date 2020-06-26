@@ -9,8 +9,8 @@ Il doit être possible de rejoindre plusieurs “channels” simultanément (Par
 
 RESTRICTIONS
 
-Pour ce projet, vous devez utiliser, et n’utiliser que :
-node.js (node)
-socket.io (web sockets et rooms)
-express.js (node)
-react.js (moteur de template js)
+Pour ce projet, vous devez utiliser, et n’utiliser que :\
+node.js\
+socket.io\
+express.js\
+react.js\
