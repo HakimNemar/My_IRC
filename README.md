@@ -13,4 +13,4 @@ Pour ce projet, vous devez utiliser, et n’utiliser que :\
 node.js\
 socket.io\
 express.js\
-react.js\
+react.js
